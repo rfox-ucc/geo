@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <button onclick="getLocation()">Get Location and Send to Google Sheets</button>
+  <script>
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendToSheet);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    }
+
+    function sendToSheet(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      
+      // Use an API request to send this data to Google Sheets
+      fetch('YOUR_SERVER_ENDPOINT', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ latitude, longitude }),
+      }).then(response => {
+        if (response.ok) {
+          alert("Data sent successfully!");
+        } else {
+          alert("Error sending data.");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
